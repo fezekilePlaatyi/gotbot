@@ -1,0 +1,118 @@
+<div class="w3-row">
+  <div class="w3-bar w3-border gotbot-navbar gotbot-blue-bg">
+    <h2 class="gotbot-heading"><b>Gotbot</b> 🤖</h2>
+  </div>
+</div>
+<div class="w3-row">
+  <div class="w3-col" style="width: 30%;">
+    <ul class="w3-ul w3-card-4 chat-history-card w3-ul w3-hoverable" id="usersChatedWith">    
+      <li (click)="showMessage(i)" *ngFor="let user of users, index as i" class="w3-bar  w3-bar-item user-on-chat-history" id="">
+        <span class="w3-bar-item">
+          <img src="{{user.profileImage}}" class="user-profile-pic-on-chathistory">
+        </span>
+        <div class="w3-bar-item">
+          <span class="w3-large">
+            {{user.firstName}}
+            {{user.lastName}}
+            <span id="newMessageBadge_{{user._id}}"></span>
+          </span>
+          <span id="newMessageBadge_{{user._id}}"></span>
+          <br>
+          <span class="w3-large">
+            <span class="last_message" id="last_message_{{user._id}}">
+              <i class="fa fa-chevron fa-chevron-{{user.messages[user.messages.length - 1].sender.id == ROBOT_USER_ID ? 'left' : 'right'}}"> | </i>
+              {{user.messages[user.messages.length - 1].message.text.length > 7 ? user.messages[user.messages.length - 1].message.text.substring(0, 6)+'...' : user.messages[user.messages.length - 1].message.text }}
+            </span>
+          </span>
+        </div>
+      </li>
+  </ul>
+  </div>
+  <div class="w3-col left-pane" style="width: 70%;">
+    <div class="w3-card chat-box-header text-center">
+      <h3>
+          <b  class="userOnChatBoxWithNames">
+              <span>
+                {{userOnChatBoxWithNames}}
+              </span>
+          </b>
+          <i title="Email This Chat Script" class="fa fa-envelope email-chat-icon pointer"
+                  data-toggle="modal" data-target="#myModalForEmail"> Email Chat</i>
+          
+      </h3>
+  </div>
+    <div class="chat-box-message-box" id="chat-box-message-box">
+      <div *ngFor="let message of messages">        
+        <div class='bubbleWrapper'>
+          <div class="inlineContainer {{message.sender.id == ROBOT_USER_ID ? 'own' : '' }}">
+            <img 
+              class='inlineIcon chat-box-img-profile' 
+              src="{{message.sender.id == ROBOT_USER_ID ? 'https://image.flaticon.com/icons/svg/327/327779.svg' : userOnChatBoxWithProfilePicture}}"
+            />
+            <div class="{{message.sender.id == ROBOT_USER_ID ? 'ownBubble own' : 'otherBubble other' }}">
+              {{message.message.text}}
+            </div>
+          </div> 
+          <span class="{{message.sender.id == ROBOT_USER_ID ? 'own' : 'other' }}">
+            {{formatMessageTimeStamp(message.timestamp)}}
+          </span>         
+        </div>
+      </div>
+    </div>
+    
+    <form>
+      <div class="input-group message-input-group">
+        <span class="input-group-addon btn-show-emojis" (click)="toggled = !toggled"
+  [(emojiPickerIf)]="toggled"
+  [emojiPickerDirection]="'bottom' || 'top' || 'left' || 'right'"
+  (emojiPickerSelect)="handleSelection($event)">
+          <i class="fa fa-smile-o fa-2x"></i>
+        </span>
+        <textarea class="form-control textareaid" 
+                  [(ngModel)]="messageInput" 
+                  name="messageInput"
+                  id="textareaid"
+                  placeholder="Type message..."></textarea>
+        <i class="fa fa-send icn-send-message" (click)="sendMessage()"></i>
+      </div>
+    </form>      
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModalForEmail" tabindex="-1" role="dialog"
+  aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <button type="button" class="close"  id="closeModalButton" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+            </div>
+            <!-- Modal Body -->
+            <div class="modal-body">
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <div class="row">
+                          <div class="col-sm-10">
+                              <input type="email" class="form-control" id="inputEmail"
+                                  placeholder="Enter mail to send chat to..." [(ngModel)]="emailInputToEmailChat" 
+                                  name="emailInputToEmailChat"/>
+                          </div>
+                        </div>
+                        <br><br>
+                        <div class="row">
+                          <div class="col-sm-12">
+                            <button (click)="sendEmail()" class="w3-right btn gotbot-blue-bg btn-send-chat-transcript">
+                                Send Chat Transcript
+                            </button>
+                          </div>                          
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
