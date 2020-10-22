@@ -12,7 +12,7 @@ This app is containerized using  [Docker](https://www.docker.com/products/docker
 ```bash
 docker-compose up
 ```
-This command will prepare and run the app. The Angular client app can be then found at:
+This command will prepare and run the app. The details Dockerfile and docker-compose.yml are also uploaded in this repo which carries the details about the builds and container for this app. The Angular client app can be then found at:
 ```bash
 http://localhost:4200/
 ```
