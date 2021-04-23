@@ -23,6 +23,3 @@ You have to secure and expose your local server to the public using  [NGROK](htt
 
 
 
-
-## Purpose
-This was created to be submission to the Assessment given by [GotBot](https://www.gotbot.co.za/). That is any reso
